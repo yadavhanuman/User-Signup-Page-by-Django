@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+   
+    <header>
+    <div align="center">
+    <form id = 'form' method = 'POST'>
+        {% csrf_token %}
+        
+        Name: <input type = 'text' name = 'name' id = 'name' />
+        E-Mail: <input type = 'text' name = 'mail' id = 'mail' />
+        Password: <input type = 'text' name = 'password' id = 'password' />
+        <input type = 'submit' name = 'submit' id = 'submit' />
+    </form>
+</div><br><br><br><br>
+    <!-- place navbar here -->
+  </header>
+  <main>
+
+  </main>
+  <footer>
+    <div align="center" id='output' style="color: green; font-weight: bold; font-size: large;"> </div>
+    <script>
+        $('#form').on('submit', function(e){
+        e.preventDefault();
+            $.ajax({
+                type : 'POST',
+                url: "{% url 'ajax_p' %}",
+                data: {name: $('#name').val(),
+                    mail: $('#mail').val(),
+                    password: $('#password').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    dataType: 'json', 
+                },
+                success: function(data){
+                    $('#output').html(data.msg)
+                },
+                failure:function()  {
+
+                }
+            });
+        });
+    </script>
+    <!-- place footer here -->
+  </footer>
+  
+</body>
+
+</html>
